@@ -37,7 +37,7 @@ public class WalletService {
 		}
 	
 		public List<Wallet> getAllData(){
-			return walletRepository.findAll();
+			return walletRepository.findAllByOrderByPriority();
 		}
 		
 		public Wallet getById(Long id) {

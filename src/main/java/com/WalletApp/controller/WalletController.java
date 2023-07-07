@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/wallet")
+@CrossOrigin("http://localhost:5173")
 public class WalletController {
 
 	@Autowired
@@ -37,6 +39,7 @@ public class WalletController {
 	private ValidationErrorService validationErrorService;
 
 	@PostMapping
+	@CrossOrigin(origins = "http://localhost:5173")
 	public ResponseEntity<?> create(@Valid @RequestBody Wallet wallet, BindingResult result) {
 		ResponseEntity<?> error = validationErrorService.validate(result);
 		if (Objects.nonNull(error)) {
@@ -47,17 +50,20 @@ public class WalletController {
 	}
 	
 	@GetMapping
+	@CrossOrigin(origins = "http://localhost:5173")
 	public ResponseEntity<?>  getWallets(){
 		return new ResponseEntity<>(walletService.getAllData(),HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
+	@CrossOrigin(origins = "http://localhost:5173")
 	public ResponseEntity<?> getById(@PathVariable Long id) {
 		return new ResponseEntity<>(walletService.getById(id),HttpStatus.OK);
 
 	}
 	
 	@PutMapping("/{id}")
+	@CrossOrigin(origins = "http://localhost:5173")
 	public ResponseEntity<?> update(@PathVariable Long id,@Valid @RequestBody Wallet wallet, BindingResult result) {
 		ResponseEntity<?> error = validationErrorService.validate(result);
 		if (Objects.nonNull(error)) {
@@ -69,6 +75,7 @@ public class WalletController {
 	}
 
 	@DeleteMapping("/{id}")
+	@CrossOrigin(origins = "http://localhost:5173")
 	public ResponseEntity<?> deleteItems(@PathVariable Long id) {
 		walletService.delete(id);
 		return new ResponseEntity<Wallet>(HttpStatus.OK);
